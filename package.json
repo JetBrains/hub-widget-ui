@@ -1,0 +1,36 @@
+{
+  "name": "hub-widget-ui",
+  "version": "1.0.0",
+  "description": "Common react Ring UI components for Hub widgets development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mazine/hub-widget-ui.git"
+  },
+  "keywords": [
+    "hub",
+    "widget",
+    "dashboard"
+  ],
+  "author": "JetBrains UI Team",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/mazine/hub-widget-ui/issues"
+  },
+  "homepage": "https://github.com/mazine/hub-widget-ui#readme",
+  "devDependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "@jetbrains/ring-ui": "^1.0.0-beta.181"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "@jetbrains/ring-ui": "^1.0.0-beta.181"
+  }
+}
