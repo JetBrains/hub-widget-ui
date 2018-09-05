@@ -15,4 +15,8 @@ EmptyWidget.propTypes = {
   children: PropTypes.node.isRequired
 };
 
+export const ERROR_FACE = '{{ (>_<) }}';
+export const JOY_FACE = '(⌒‿⌒)';
+export const OK_FACE = '(・_・)';
+
 export default EmptyWidget;
