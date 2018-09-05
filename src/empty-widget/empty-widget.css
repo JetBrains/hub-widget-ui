@@ -1,6 +1,6 @@
-@import "~@jetbrains/ring-ui/components/global/variables.css";
+@import "@jetbrains/ring-ui/components/global/variables.css";
 
-@value unit from "~@jetbrains/ring-ui/components/global/global.css";
+@value unit from "@jetbrains/ring-ui/components/global/global.css";
 
 .empty {
   position: absolute;

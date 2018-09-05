@@ -4,6 +4,7 @@
   "description": "Common react Ring UI components for Hub widgets development",
   "main": "index.js",
   "scripts": {
+    "build": "webpack -p --devtool sourcemap",
     "lint": "eslint . && npm run stylelint",
     "stylelint": "stylelint --ignore-path .gitignore **/*.css",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -33,12 +34,24 @@
     "@jetbrains/ring-ui": "^1.0.0-beta.181",
     "babel-eslint": "8.2.6",
     "eslint": "5.2.0",
-    "stylelint": "9.4.0"
+    "stylelint": "9.4.0",
+    "webpack": "3.12.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "postcss-loader": "3.0.0",
+    "postcss-modules-values-replace": "3.0.1",
+    "css-loader": "1.0.0"
   },
   "peerDependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "@jetbrains/ring-ui": "^1.0.0-beta.181"
+  },
+  "dependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "postcss-import": "^12.0.0"
   }
 }
