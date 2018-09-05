@@ -3,36 +3,36 @@
 @value unit from "~@jetbrains/ring-ui/components/global/global.css";
 
 .empty {
-    position: absolute;
-    top: 50%;
-    left: 0;
+  position: absolute;
+  top: 50%;
+  left: 0;
 
-    width: 100%;
+  width: 100%;
 
-    transform: translate(0, -50%);
+  transform: translate(0, -50%);
 }
 
 .smile {
-    text-align: center;
-    white-space: nowrap;
+  text-align: center;
+  white-space: nowrap;
 
-    color: var(--ring-text-color);
+  color: var(--ring-text-color);
 
-    font-size: 19px;
+  font-size: 19px;
 }
 
 .message {
-    margin-top: calc(unit * 3);
+  margin-top: calc(unit * 3);
 
-    text-align: center;
+  text-align: center;
 
-    color: var(--ring-text-color);
+  color: var(--ring-text-color);
 
-    font-size: 13px;
+  font-size: 13px;
 }
 
 .link {
-    display: inline-block;
+  display: inline-block;
 
-    margin-top: calc(unit);
+  margin-top: calc(unit);
 }
