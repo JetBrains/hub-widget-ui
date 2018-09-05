@@ -11,6 +11,12 @@
     "browser": true
   },
   "rules": {
+    "max-len": ["error", {
+      "code": 100,
+      "ignoreComments": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true
+    }],
     "import/no-commonjs": "off"
   }
 }

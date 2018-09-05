@@ -22,7 +22,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'empty-widget.css'
+      filename: '[name].css'
     })
   ],
   module: {
@@ -41,7 +41,26 @@ module.exports = {
                 localIdentName: '[name]__[local]__[hash:base64:7]'
               }
             },
-            'postcss-loader'
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  require('postcss-import')({}),
+                  require('postcss-modules-values-replace')({}),
+                  require('postcss-cssnext')({
+                    features: {
+                      calc: {
+                        mediaQueries: true
+                      },
+                      customProperties: {
+                        preserve: true,
+                        variables: require('@jetbrains/ring-ui/extract-css-vars')
+                      }
+                    }
+                  })
+                ]
+              }
+            }
           ]
         })
       },
@@ -67,6 +86,10 @@ module.exports = {
     react: {
       commonjs: 'react',
       commonjs2: 'react'
+    },
+    'prop-types': {
+      commonjs: 'prop-types',
+      commonjs2: 'prop-types'
     },
     'react-dom': {
       commonjs: 'react-dom',
