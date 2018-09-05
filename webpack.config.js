@@ -44,6 +44,9 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
+                config: {
+                  ctx: {variables: require('@jetbrains/ring-ui/extract-css-vars')}
+                },
                 plugins: () => [
                   require('postcss-import')({}),
                   require('postcss-modules-values-replace')({}),
