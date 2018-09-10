@@ -10,11 +10,11 @@ const libraryName = pkg.name;
 module.exports = {
   entry: {
     'configurable-widget': path.join(__dirname, './src/configurable-widget/configurable-widget'),
-    // 'configuration-form': path.join(__dirname, './src/configuration-form/configuration-form'),
+    'configuration-form': path.join(__dirname, './src/configuration-form/configuration-form'),
     'configuration-mode': path.join(__dirname, './src/configuration-mode/configuration-mode'),
     'empty-widget': path.join(__dirname, './src/empty-widget/empty-widget'),
-    // 'refresh-period': path.join(__dirname, './src/refresh-period/refresh-period'),
-    // 'service-select': path.join(__dirname, './src/service-select/service-select'),
+    'refresh-period': path.join(__dirname, './src/refresh-period/refresh-period'),
+    'service-select': path.join(__dirname, './src/service-select/service-select'),
     'super-digits': path.join(__dirname, './src/super-digits/super-digits'),
     timer: path.join(__dirname, './src/timer/timer'),
     'widget-loader': path.join(__dirname, './src/widget-loader/widget-loader'),
@@ -33,6 +33,7 @@ module.exports = {
       ...ringUiWebpackConfig.config.module.rules,
       {
         test: /\.*css$/,
+        exclude: [ringUiWebpackConfig.componentsPath],
         use: [{
           loader: 'style-loader'
         }, {
