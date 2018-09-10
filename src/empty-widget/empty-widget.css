@@ -10,10 +10,11 @@
   width: 100%;
 
   transform: translate(0, -50%);
+
+  text-align: center;
 }
 
 .smile {
-  text-align: center;
   white-space: nowrap;
 
   color: var(--ring-text-color);
@@ -24,15 +25,13 @@
 .message {
   margin-top: calc(unit * 3);
 
-  text-align: center;
-
   color: var(--ring-text-color);
 
-  font-size: 13px;
+  font-size: var(--ring-font-size);
 }
 
-.link {
-  display: inline-block;
+.additionalContent {
+  margin-top: unit;
 
-  margin-top: calc(unit);
+  font-size: var(--ring-font-size-smaller);
 }
