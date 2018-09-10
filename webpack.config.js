@@ -9,7 +9,16 @@ const libraryName = pkg.name;
 
 module.exports = {
   entry: {
-    'empty-widget': path.join(__dirname, './src/empty-widget/empty-widget')
+    'configurable-widget': path.join(__dirname, './src/configurable-widget/configurable-widget'),
+    // 'configuration-form': path.join(__dirname, './src/configuration-form/configuration-form'),
+    'configuration-mode': path.join(__dirname, './src/configuration-mode/configuration-mode'),
+    'empty-widget': path.join(__dirname, './src/empty-widget/empty-widget'),
+    // 'refresh-period': path.join(__dirname, './src/refresh-period/refresh-period'),
+    // 'service-select': path.join(__dirname, './src/service-select/service-select'),
+    'super-digits': path.join(__dirname, './src/super-digits/super-digits'),
+    timer: path.join(__dirname, './src/timer/timer'),
+    'widget-loader': path.join(__dirname, './src/widget-loader/widget-loader'),
+    'widget-title': path.join(__dirname, './src/widget-title/widget-title')
   },
   output: {
     path: path.join(__dirname, './dist'),
@@ -65,6 +74,9 @@ module.exports = {
             presets: [
               '@babel/preset-env',
               '@babel/preset-react'
+            ],
+            plugins: [
+              '@babel/plugin-proposal-class-properties'
             ]
           }
         },

@@ -1,0 +1,37 @@
+@import "@jetbrains/ring-ui/components/global/variables.css";
+
+@value unit from "@jetbrains/ring-ui/components/global/global.css";
+
+.refreshPeriod {
+  float: right;
+
+  margin-top: unit;
+  margin-right: calc(unit / 2);
+
+  cursor: default;
+  user-select: none;
+  white-space: nowrap;
+
+  color: var(--ring-dark-text-color);
+
+  font-size: var(--ring-font-size-smaller);
+  line-height: 10px;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--ring-link-hover-color);
+}
+
+.up {
+  top: -4px;
+  right: -2px;
+}
+
+.down {
+  bottom: -4px;
+  left: -10px;
+}
