@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 import styles from './empty-widget.css';
 
-const EmptyWidgetSmiles = {
+const EmptyWidgetFaces = {
   ERROR: '{{ (>_<) }}',
   JOY: '(⌒‿⌒)',
   OK: '(・_・)'
 };
 
-const EmptyWidget = ({smile, message, children}) => (
+const EmptyWidget = ({face, message, children}) => (
   <div className={styles.empty}>
     {
-      smile &&
-      <div className={styles.smile}>
-        {smile}
+      face &&
+      <div className={styles.face}>
+        {face}
       </div>
     }
     {
@@ -33,7 +33,7 @@ const EmptyWidget = ({smile, message, children}) => (
 );
 
 EmptyWidget.propTypes = {
-  smile: PropTypes.string,
+  face: PropTypes.string,
   message: PropTypes.string,
   children: PropTypes.node
 };
@@ -41,4 +41,4 @@ EmptyWidget.propTypes = {
 
 export default EmptyWidget;
 
-export {EmptyWidgetSmiles};
+export {EmptyWidgetFaces};
