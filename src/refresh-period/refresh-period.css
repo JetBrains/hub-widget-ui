@@ -12,7 +12,7 @@
   user-select: none;
   white-space: nowrap;
 
-  color: var(--ring-dark-text-color);
+  color: var(--ring-dark-secondary-color);
 
   font-size: var(--ring-font-size-smaller);
   line-height: 10px;
