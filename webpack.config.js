@@ -1,5 +1,6 @@
 const path = require('path');
 
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ringUiWebpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
@@ -93,6 +94,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
+    }),
+    new webpack.BannerPlugin({
+      raw: true,
+      test: /\.js$/,
+      banner: 'require("./[name].css")'
     })
   ],
   externals: [
