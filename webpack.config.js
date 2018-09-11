@@ -53,7 +53,7 @@ module.exports = {
             },
             plugins: () => [
               require('postcss-import')({
-                load: filename => `/* import removed for ${filename}*/`
+                load: () => '/* import pruned */'
               }),
               require('postcss-modules-values-replace')({}),
               require('postcss-cssnext')({
@@ -97,7 +97,14 @@ module.exports = {
     new webpack.BannerPlugin({
       raw: true,
       test: /\.js$/,
-      banner: 'require("./[name].css")'
+      // banner: 'require("./[name].css")'
+      banner: data => {
+        const chunk = data.chunk;
+        if (chunk.files.find(filename => /\.*css$/.test(filename))) {
+          return 'require("./[name].css")';
+        }
+        return '/* No CSS companion file found */';
+      }
     })
   ],
   externals: [
