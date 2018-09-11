@@ -37,7 +37,6 @@ module.exports = {
         exclude: [ringUiWebpackConfig.componentsPath],
         use: [{
           loader: MiniCssExtractPlugin.loader
-          // loader: 'style-loader'
         }, {
           loader: 'css-loader',
           options: {
@@ -97,7 +96,6 @@ module.exports = {
     new webpack.BannerPlugin({
       raw: true,
       test: /\.js$/,
-      // banner: 'require("./[name].css")'
       banner: data => {
         const chunk = data.chunk;
         if (chunk.files.find(filename => /\.*css$/.test(filename))) {
