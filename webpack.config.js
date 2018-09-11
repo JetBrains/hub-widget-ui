@@ -1,6 +1,6 @@
 const path = require('path');
 
-// const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ringUiWebpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
 const pkg = require('./package.json');
@@ -8,6 +8,7 @@ const pkg = require('./package.json');
 const libraryName = pkg.name;
 
 module.exports = {
+  mode: 'development',
   entry: {
     'configurable-widget': path.join(__dirname, './src/configurable-widget/configurable-widget'),
     'configuration-form': path.join(__dirname, './src/configuration-form/configuration-form'),
@@ -24,7 +25,7 @@ module.exports = {
     path: path.join(__dirname, './dist'),
     filename: '[name].js',
     library: libraryName,
-    libraryTarget: 'umd',
+    libraryTarget: 'commonjs2',
     publicPath: '/dist/',
     umdNamedDefine: true
   },
@@ -35,7 +36,8 @@ module.exports = {
         test: /\.*css$/,
         exclude: [ringUiWebpackConfig.componentsPath],
         use: [{
-          loader: 'style-loader'
+          loader: MiniCssExtractPlugin.loader
+          // loader: 'style-loader'
         }, {
           loader: 'css-loader',
           options: {
@@ -50,7 +52,9 @@ module.exports = {
               ctx: {variables: require('@jetbrains/ring-ui/extract-css-vars')}
             },
             plugins: () => [
-              require('postcss-import')({}),
+              require('postcss-import')({
+                load: filename => `/* import removed for ${filename}*/`
+              }),
               require('postcss-modules-values-replace')({}),
               require('postcss-cssnext')({
                 features: {
@@ -85,25 +89,16 @@ module.exports = {
         exclude: /node_modules/
       }]
   },
-  resolve: {
-  },
-  externals: {
-    // Don't bundle react or react-dom
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react'
-    },
-    'prop-types': {
-      commonjs: 'prop-types',
-      commonjs2: 'prop-types'
-    },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom'
-    },
-    '@jetbrains/ring-ui': {
-      commonjs: '@jetbrains/ring-ui',
-      commonjs2: '@jetbrains/ring-ui'
-    }
-  }
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    })
+  ],
+  externals: [
+    'react',
+    'react-dom',
+    'prop-types',
+    /@jetbrains\/ring-ui/
+  ]
 };
