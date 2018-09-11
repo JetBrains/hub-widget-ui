@@ -27,8 +27,7 @@ module.exports = {
     filename: '[name].js',
     library: libraryName,
     libraryTarget: 'commonjs2',
-    publicPath: '/dist/',
-    umdNamedDefine: true
+    publicPath: '/dist/'
   },
   module: {
     rules: [
