@@ -55,12 +55,9 @@ module.exports = {
                 load: () => '/* import pruned */'
               }),
               require('postcss-modules-values-replace')({}),
-              require('postcss-cssnext')({
+              require('postcss-preset-env')({
                 features: {
-                  calc: {
-                    mediaQueries: true
-                  },
-                  customProperties: {
+                  'custom-properties': {
                     preserve: true,
                     variables: require('@jetbrains/ring-ui/extract-css-vars')
                   }
