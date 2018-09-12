@@ -73,7 +73,9 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@jetbrains/jetbrains'
+              ['@jetbrains/jetbrains', {
+                useBuiltIns: 'usage'
+              }]
             ]
           }
         },
@@ -102,6 +104,7 @@ module.exports = {
     'react',
     'react-dom',
     'prop-types',
-    /@jetbrains\/ring-ui/
+    /@jetbrains\/ring-ui/,
+    /core-js/
   ]
 };
