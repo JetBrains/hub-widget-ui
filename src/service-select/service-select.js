@@ -11,8 +11,9 @@ const service2item = service => service && {
 };
 
 const ServiceSelect =
-  ({isLoading, placeholder, selectedService, serviceList, loadError, onServiceSelect}) => (
+  ({isLoading, label, placeholder, selectedService, serviceList, loadError, onServiceSelect}) => (
     <Select
+      selectedLabel={label}
       label={placeholder || 'Select service'}
       multiple={false}
       loading={isLoading}
@@ -34,6 +35,7 @@ const SERVICE_PROPS = {
 
 ServiceSelect.propTypes = {
   isLoading: PropTypes.bool,
+  label: PropTypes.string,
   placeholder: PropTypes.string,
   selectedService: PropTypes.shape(SERVICE_PROPS),
   serviceList: PropTypes.arrayOf(PropTypes.shape(SERVICE_PROPS)),
