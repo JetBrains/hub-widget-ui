@@ -40,6 +40,5 @@ EmptyWidget.propTypes = {
 };
 
 
-export default EmptyWidget;
-
 export {EmptyWidgetFaces};
+export default EmptyWidget;
