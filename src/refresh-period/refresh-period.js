@@ -24,7 +24,7 @@ const RefreshPeriod = ({seconds, onChange, label, tooltip}) => {
   const minutesCount = seconds / REFRESH_PERIOD_MINUTE;
 
   return (
-    <span className={styles.refreshPeriod}>
+    <span className={styles.refreshPeriod} data-test="refresh-period-control">
       <Tooltip
         delay={1000}
         popupProps={{top: -4}}
@@ -32,19 +32,21 @@ const RefreshPeriod = ({seconds, onChange, label, tooltip}) => {
       >
         <TimeIcon
           size={TimeIcon.Size.Size12}
-        />&nbsp;{label(minutesCount)}
+        />&nbsp;<span data-test="refresh-period-label">{label(minutesCount)}</span>
       </Tooltip>
       <ChevronUpIcon
         onClick={increaseRefreshPeriod(seconds, onChange)}
         className={[styles.button, styles.up].join(' ')}
         size={ChevronUpIcon.Size.Size12}
         color={ChevronUpIcon.Color.BLUE}
+        data-test="refresh-period-up"
       />
       <ChevronDownIcon
         onClick={decreaseRefreshPeriod(seconds, onChange)}
         className={[styles.button, styles.down].join(' ')}
         size={ChevronDownIcon.Size.Size12}
         color={ChevronDownIcon.Color.BLUE}
+        data-test="refresh-period-down"
       />
     </span>
   );

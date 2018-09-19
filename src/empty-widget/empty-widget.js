@@ -11,16 +11,16 @@ const EmptyWidgetFaces = {
 };
 
 const EmptyWidget = ({face, message, children}) => (
-  <div className={styles.empty}>
+  <div className={styles.empty} data-test="empty-widget">
     {
       face &&
-      <div className={styles.face}>
+      <div className={styles.face} data-test="empty-widget-face">
         {face}
       </div>
     }
     {
       message &&
-      <div className={styles.message}>
+      <div className={styles.message} data-test="empty-widget-message">
         {message}
       </div>
     }

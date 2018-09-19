@@ -10,22 +10,33 @@ const service2item = service => service && {
   service
 };
 
-const ServiceSelect =
-  ({isLoading, label, placeholder, selectedService, serviceList, loadError, onServiceSelect}) => (
-    <Select
-      selectedLabel={label}
-      label={placeholder || 'Select service'}
-      multiple={false}
-      loading={isLoading}
-      filter={true}
-      selected={service2item(selectedService)}
-      size={Select.Size.FULL}
-      minWidth={MinWidth.TARGET}
-      data={(serviceList || []).map(service2item)}
-      notFoundMessage={loadError}
-      onSelect={onServiceSelect}
-    />
-  );
+const ServiceSelect = (
+  {
+    isLoading,
+    label,
+    placeholder,
+    selectedService,
+    serviceList,
+    loadError,
+    onServiceSelect,
+    ...props
+  }
+) => (
+  <Select
+    {...props}
+    selectedLabel={label}
+    label={placeholder || 'Select service'}
+    multiple={false}
+    loading={isLoading}
+    filter={true}
+    selected={service2item(selectedService)}
+    size={Select.Size.FULL}
+    minWidth={MinWidth.TARGET}
+    data={(serviceList || []).map(service2item)}
+    notFoundMessage={loadError}
+    onSelect={onServiceSelect}
+  />
+);
 
 const SERVICE_PROPS = {
   id: PropTypes.string.isRequired,

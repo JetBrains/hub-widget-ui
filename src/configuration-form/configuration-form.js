@@ -15,13 +15,13 @@ const ConfigurationForm = (
     children
   }
 ) => (
-  <div>
+  <div data-test="widget-configuration-form">
     {children}
-    <Panel className={styles.configurationButtonsPanel}>
+    <Panel className={styles.configurationButtonsPanel} data-test="apply-button">
       <Button primary={true} onClick={onSave}>
         {saveButtonLabel || 'Save'}
       </Button>
-      <Button onClick={onCancel}>
+      <Button onClick={onCancel} data-test="cancel-button">
         {cancelButtonLabel || 'Cancel'}
       </Button>
       {panelControls}
