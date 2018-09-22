@@ -10,6 +10,9 @@ const service2item = service => service && {
   service
 };
 
+const withUnBoxedService = wrappedCallback =>
+  selectItem => wrappedCallback((selectItem || {}).service);
+
 const ServiceSelect = (
   {
     isLoading,
@@ -34,7 +37,7 @@ const ServiceSelect = (
     minWidth={MinWidth.TARGET}
     data={(serviceList || []).map(service2item)}
     notFoundMessage={loadError}
-    onSelect={onServiceSelect}
+    onSelect={withUnBoxedService(onServiceSelect)}
   />
 );
 
