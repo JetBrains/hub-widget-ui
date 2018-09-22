@@ -15,6 +15,7 @@ module.exports = {
     'configuration-form': path.join(__dirname, './src/configuration-form/configuration-form'),
     'configuration-mode': path.join(__dirname, './src/configuration-mode/configuration-mode'),
     'empty-widget': path.join(__dirname, './src/empty-widget/empty-widget'),
+    'http-error-handler': path.join(__dirname, './src/http-error-handler/http-error-handler'),
     'refresh-period': path.join(__dirname, './src/refresh-period/refresh-period'),
     'service-select': path.join(__dirname, './src/service-select/service-select'),
     'super-digits': path.join(__dirname, './src/super-digits/super-digits'),
