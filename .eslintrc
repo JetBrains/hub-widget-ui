@@ -10,6 +10,10 @@
     "node": true,
     "browser": true
   },
+  "globals": {
+    "describe": true,
+    "it": true
+  },
   "rules": {
     "max-len": ["error", {
       "code": 100,
