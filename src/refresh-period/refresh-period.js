@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Tooltip from '@jetbrains/ring-ui/components/tooltip/tooltip';
 import {ChevronDownIcon, ChevronUpIcon, TimeIcon} from '@jetbrains/ring-ui/components/icon';
+import {i18n} from 'hub-dashboard-addons/dist/localization';
 
 import styles from './refresh-period.css';
 
@@ -60,8 +61,14 @@ RefreshPeriod.propTypes = {
 };
 
 RefreshPeriod.defaultProps = {
-  label: min => `${min} min`,
-  tooltip: min => (min === 1 ? 'Widget refreshes every minute' : `Widget refreshes every ${min} minutes`)
+  label: minutesCount => i18n(
+    '{{minutesCount}} min', {minutesCount}, minutesCount
+  ),
+  tooltip: minutesCount => (
+    minutesCount === 1
+      ? i18n('Widget refreshes every minute')
+      : i18n('Widget refreshes every {{minutesCount}} minutes', {minutesCount}, minutesCount)
+  )
 };
 
 export default RefreshPeriod;

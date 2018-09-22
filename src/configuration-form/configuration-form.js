@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Panel from '@jetbrains/ring-ui/components/panel/panel';
 import Button from '@jetbrains/ring-ui/components/button/button';
+import {i18n} from 'hub-dashboard-addons/dist/localization';
 
 import styles from './configuration-form.css';
 
@@ -19,10 +20,10 @@ const ConfigurationForm = (
     {children}
     <Panel className={styles.configurationButtonsPanel} data-test="apply-button">
       <Button primary={true} onClick={onSave}>
-        {saveButtonLabel || 'Save'}
+        {saveButtonLabel || i18n('Save')}
       </Button>
       <Button onClick={onCancel} data-test="cancel-button">
-        {cancelButtonLabel || 'Cancel'}
+        {cancelButtonLabel || i18n('Cancel')}
       </Button>
       {panelControls}
     </Panel>

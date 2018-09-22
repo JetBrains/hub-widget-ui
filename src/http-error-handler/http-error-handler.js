@@ -1,5 +1,7 @@
+import {i18n} from 'hub-dashboard-addons/dist/localization';
+
 function getDefaultMessage() {
-  return 'Oops! Something went wrong...';
+  return i18n('Oops! Something went wrong...');
 }
 
 function getMessage(hubResponseError) {
