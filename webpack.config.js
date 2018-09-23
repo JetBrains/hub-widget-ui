@@ -106,6 +106,7 @@ module.exports = {
     'react-dom',
     'prop-types',
     /@jetbrains\/ring-ui/,
+    /hub-dashboard-addons/,
     /core-js/
   ]
 };
