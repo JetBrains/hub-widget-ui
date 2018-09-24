@@ -4,14 +4,18 @@ function getDefaultMessage() {
   return i18n('Oops! Something went wrong...');
 }
 
-function getMessage(hubResponseError) {
-  if (typeof hubResponseError === 'string') {
+function getMessage(hubResponseError, defaultErrorMessage) {
+  if (typeof hubResponseError === 'string' && hubResponseError) {
     return hubResponseError;
   }
-  const responseErrorData = (hubResponseError || {}).data || hubResponseError || {};
-  const message = responseErrorData.error_description ||
-    responseErrorData.error_developer_message;
-  return message || getDefaultMessage();
+  const responseErrorData = getResponseData(hubResponseError);
+  return responseErrorData.error_description ||
+    responseErrorData.error_developer_message ||
+    defaultErrorMessage || getDefaultMessage();
+
+  function getResponseData(response) {
+    return (response || {}).data || response || {};
+  }
 }
 
 export default {
