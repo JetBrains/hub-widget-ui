@@ -13,6 +13,7 @@ const ConfigurationForm = (
     cancelButtonLabel,
     warning,
     isInvalid,
+    isLoading,
     panelControls,
     onSave,
     onCancel,
@@ -39,10 +40,15 @@ const ConfigurationForm = (
         primary={true}
         onClick={onSave}
         disabled={isInvalid}
+        loader={isLoading}
       >
         {saveButtonLabel || i18n('Save')}
       </Button>
-      <Button onClick={onCancel} data-test="cancel-button">
+      <Button
+        data-test="cancel-button"
+        onClick={onCancel}
+        loader={isLoading}
+      >
         {cancelButtonLabel || i18n('Cancel')}
       </Button>
       {panelControls}
@@ -55,6 +61,7 @@ ConfigurationForm.propTypes = {
   cancelButtonLabel: PropTypes.string,
   warning: PropTypes.string,
   isInvalid: PropTypes.bool,
+  isLoading: PropTypes.bool,
   panelControls: PropTypes.arrayOf(PropTypes.node),
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
