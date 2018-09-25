@@ -1,6 +1,28 @@
+@import "@jetbrains/ring-ui/components/global/variables.css";
+
 .configurationButtonsPanel.configurationButtonsPanel {
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
+
+  background-color: white;
+}
+
+.configurationWarning {
+  margin-top: -8px;
+  margin-bottom: 4px;
+
+  color: var(--ring-warning-color);
+}
+
+.configurationWarningIcon {
+  position: relative;
+  top: -2px;
+
+  margin-right: 6px;
+}
+
+.configurationFormContent {
+  margin-bottom: 50px;
 }
