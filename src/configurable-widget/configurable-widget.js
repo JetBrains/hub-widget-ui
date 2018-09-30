@@ -10,7 +10,7 @@ const ConfigurableWidget = ({isConfiguring, Title, Configuration, Content, dashb
       isConfiguring={isConfiguring}
       dashboardApi={dashboardApi}
     />
-    {<Title dashboardApi={dashboardApi}/>}
+    {Title && <Title dashboardApi={dashboardApi}/>}
     {isConfiguring ? <Configuration/> : <Content/>}
   </div>
 );
