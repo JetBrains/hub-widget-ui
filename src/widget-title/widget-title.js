@@ -1,35 +1,64 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import toSuperDigitsString from '../super-digits/super-digits';
 
-class WidgetTitle extends Component {
+function withWidgetTitleHOC(WrappedComponent) {
 
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    counter: PropTypes.number,
-    href: PropTypes.string,
-    dashboardApi: PropTypes.object.isRequired
-  };
+  const widgetTitleAsObject = widgetTitle =>
+    (typeof widgetTitle === 'string'
+      ? {text: widgetTitle, counter: -1, href: null}
+      : widgetTitle);
 
-  shouldComponentUpdate(nextProps) {
-    if (this.props === nextProps) {
+  const shouldTitleUpdate = (currentTitle, prevTitle) => {
+    if (currentTitle === prevTitle) {
       return false;
     }
 
-    const {title: oldTitle, counter: oldCounter, href: oldHref} = this.props;
-    const {title: newTitle, counter: newCounter, href: newHref} = nextProps;
-    return oldTitle !== newTitle || oldCounter !== newCounter || oldHref !== newHref;
-  }
+    const {
+      text: oldText, counter: oldCounter, href: oldHref
+    } = widgetTitleAsObject(prevTitle || {});
+    const {
+      text: newText, counter: newCounter, href: newHref
+    } = widgetTitleAsObject(currentTitle || {});
+    return oldText !== newText || oldCounter !== newCounter || oldHref !== newHref;
+  };
 
-  render() {
-    const {title, counter, href, dashboardApi} = this.props;
-    dashboardApi.setTitle(
-      `${title} ${counter != null && counter >= 0 ? toSuperDigitsString(counter) : ''}`,
-      href
-    );
-    return '';
-  }
+  return class WidgetTitle extends Component {
+
+    static propTypes = {
+      widgetTitle: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+      ]),
+      dashboardApi: PropTypes.object.isRequired
+    };
+
+    constructor(props) {
+      super(props);
+      this.state = {};
+    }
+
+    render() {
+      const {widgetTitle, ...restProps} = this.props;
+
+      if (widgetTitle && shouldTitleUpdate(widgetTitle, this.state.prevWidgetTitle)) {
+        const {text, counter, href} = widgetTitleAsObject(widgetTitle);
+
+        const superDigitTitlePart = counter != null && counter >= 0
+          ? ` ${toSuperDigitsString(counter)}`
+          : '';
+        restProps.dashboardApi.setTitle(
+          `${text}${superDigitTitlePart}`, href
+        );
+        this.setState({prevWidgetTitle: widgetTitle});
+      }
+
+      return (
+        <WrappedComponent {...restProps}/>
+      );
+    }
+  };
 }
 
-export default WidgetTitle;
+export default withWidgetTitleHOC;
