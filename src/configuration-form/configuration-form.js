@@ -62,10 +62,16 @@ ConfigurationForm.propTypes = {
   warning: PropTypes.string,
   isInvalid: PropTypes.bool,
   isLoading: PropTypes.bool,
-  panelControls: PropTypes.arrayOf(PropTypes.node),
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  children: PropTypes.node
+  panelControls: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node)
+  ]),
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node)
+  ])
 };
 
 export default ConfigurationForm;
