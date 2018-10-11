@@ -2,11 +2,11 @@
 
 const argv = require('minimist')(process.argv);
 
-module.exports = config => {
+module.exports = config =>
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: 'src',
+    basePath: '',
 
 
     // frameworks to use
@@ -16,7 +16,7 @@ module.exports = config => {
 
     // list of files / patterns to load in the browser
     files: [
-      './test-bundler.js'
+      './src/**/*.test.js'
     ],
 
 
@@ -27,12 +27,13 @@ module.exports = config => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './test-bundler.js': ['webpack', 'sourcemap']
+      './src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
-    webpack: Object.assign({}, require('./webpack.config.js')(), {
+    webpack: Object.assign({}, require('./webpack.config.js'), {
       devtool: 'inline-source-map',
       entry: null,
+      output: null,
       externals: {
         'react/addons': 'react',
         'react/lib/ExecutionEnvironment': 'react',
@@ -86,4 +87,3 @@ module.exports = config => {
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true
   });
-};
