@@ -11,7 +11,7 @@ function withWidgetTitleHOC(WrappedComponent) {
       : widgetTitle);
 
   const shouldTitleUpdate = (currentTitle, prevTitle) => {
-    if (currentTitle === prevTitle) {
+    if (!currentTitle || currentTitle === prevTitle) {
       return false;
     }
 
@@ -34,6 +34,19 @@ function withWidgetTitleHOC(WrappedComponent) {
       dashboardApi: PropTypes.object
     };
 
+    static getDerivedStateFromProps(props, state) {
+      if (shouldTitleUpdate(props.widgetTitle, state.prevWidgetTitle)) {
+        return {
+          prevWidgetTitle: props.widgetTitle,
+          shouldTitleUpdate: true
+        };
+      }
+      return {
+        prevWidgetTitle: state.prevWidgetTitle,
+        shouldTitleUpdate: false
+      };
+    }
+
     constructor(props) {
       super(props);
       this.state = {};
@@ -42,18 +55,15 @@ function withWidgetTitleHOC(WrappedComponent) {
     render() {
       const {widgetTitle, ...restProps} = this.props;
 
-      if (widgetTitle && shouldTitleUpdate(widgetTitle, this.state.prevWidgetTitle)) {
-        if (restProps.dashboardApi) {
-          const {text, counter, href} = widgetTitleAsObject(widgetTitle);
+      if (this.state.shouldTitleUpdate && restProps.dashboardApi) {
+        const {text, counter, href} = widgetTitleAsObject(widgetTitle);
 
-          const superDigitTitlePart = counter != null && counter >= 0
-            ? ` ${toSuperDigitsString(counter)}`
-            : '';
-          restProps.dashboardApi.setTitle(
-            `${text}${superDigitTitlePart}`, href
-          );
-        }
-        this.setState({prevWidgetTitle: widgetTitle});
+        const superDigitTitlePart = counter != null && counter >= 0
+          ? ` ${toSuperDigitsString(counter)}`
+          : '';
+        restProps.dashboardApi.setTitle(
+          `${text}${superDigitTitlePart}`, href
+        );
       }
 
       return (
