@@ -12,7 +12,9 @@
   },
   "globals": {
     "describe": true,
-    "it": true
+    "it": true,
+    "beforeEach": true,
+    "sandbox": true
   },
   "rules": {
     "max-len": ["error", {

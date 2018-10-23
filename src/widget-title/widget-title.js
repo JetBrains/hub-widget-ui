@@ -31,7 +31,7 @@ function withWidgetTitleHOC(WrappedComponent) {
         PropTypes.string,
         PropTypes.object
       ]),
-      dashboardApi: PropTypes.object.isRequired
+      dashboardApi: PropTypes.object
     };
 
     constructor(props) {
@@ -43,14 +43,16 @@ function withWidgetTitleHOC(WrappedComponent) {
       const {widgetTitle, ...restProps} = this.props;
 
       if (widgetTitle && shouldTitleUpdate(widgetTitle, this.state.prevWidgetTitle)) {
-        const {text, counter, href} = widgetTitleAsObject(widgetTitle);
+        if (restProps.dashboardApi) {
+          const {text, counter, href} = widgetTitleAsObject(widgetTitle);
 
-        const superDigitTitlePart = counter != null && counter >= 0
-          ? ` ${toSuperDigitsString(counter)}`
-          : '';
-        restProps.dashboardApi.setTitle(
-          `${text}${superDigitTitlePart}`, href
-        );
+          const superDigitTitlePart = counter != null && counter >= 0
+            ? ` ${toSuperDigitsString(counter)}`
+            : '';
+          restProps.dashboardApi.setTitle(
+            `${text}${superDigitTitlePart}`, href
+          );
+        }
         this.setState({prevWidgetTitle: widgetTitle});
       }
 
