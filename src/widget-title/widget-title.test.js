@@ -1,46 +1,22 @@
 /* eslint-disable no-unused-expressions */
 
-import 'core-js/es6';
-
-import 'babel-polyfill';
 import React from 'react';
-import chai, {expect} from 'chai';
-import sinon from 'sinon';
-import chaiEnzyme from 'chai-enzyme';
-import spies from 'chai-spies';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-import chaiAsPromised from 'chai-as-promised';
-import chaiDOM from 'chai-dom';
-import sinonChai from 'sinon-chai';
+import {expect} from 'chai';
+import {mount} from 'enzyme';
 
 import TestComponent from '../test-mocks/test-component';
 import {getDashboardApiMock} from '../test-mocks/test-mocks';
 
 import withWidgetTitleHOC from './widget-title';
 
-const adapter = new Adapter();
-Enzyme.configure({adapter});
-
-chai.use(chaiEnzyme());
-chai.use(spies);
-chai.use(chaiAsPromised);
-chai.use(chaiDOM);
-chai.use(sinonChai);
-
-Object.assign(window, {
-  sandbox: sinon.createSandbox()
-});
-
-const TitleTestComponent = withWidgetTitleHOC(TestComponent);
-
-describe.only('WidgetTitle', () => {
+describe('WidgetTitle', () => {
 
   let dashboardApiMock;
+  let TitleTestComponent;
 
   beforeEach(() => {
     dashboardApiMock = getDashboardApiMock();
+    TitleTestComponent = withWidgetTitleHOC(TestComponent);
   });
 
   it('should export function', () => {
@@ -136,7 +112,7 @@ describe.only('WidgetTitle', () => {
   });
 
   function mountTitleTestComponent(label, widgetTitle, dashboardApi) {
-    return Enzyme.mount(
+    return mount(
       <TitleTestComponent
         label={label}
         widgetTitle={widgetTitle}
