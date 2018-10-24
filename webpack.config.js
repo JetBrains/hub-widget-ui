@@ -10,19 +10,7 @@ const libraryName = pkg.name;
 
 module.exports = {
   mode: 'development',
-  entry: {
-    'configurable-widget': path.join(__dirname, './src/configurable-widget/configurable-widget'),
-    'configuration-form': path.join(__dirname, './src/configuration-form/configuration-form'),
-    'configuration-mode': path.join(__dirname, './src/configuration-mode/configuration-mode'),
-    'empty-widget': path.join(__dirname, './src/empty-widget/empty-widget'),
-    'http-error-handler': path.join(__dirname, './src/http-error-handler/http-error-handler'),
-    'refresh-period': path.join(__dirname, './src/refresh-period/refresh-period'),
-    'service-select': path.join(__dirname, './src/service-select/service-select'),
-    'super-digits': path.join(__dirname, './src/super-digits/super-digits'),
-    timer: path.join(__dirname, './src/timer/timer'),
-    'widget-loader': path.join(__dirname, './src/widget-loader/widget-loader'),
-    'widget-title': path.join(__dirname, './src/widget-title/widget-title')
-  },
+  entry: getComponentsEntryPoints(),
   output: {
     path: path.join(__dirname, './dist'),
     filename: '[name].js',
@@ -110,3 +98,13 @@ module.exports = {
     /core-js/
   ]
 };
+
+function getComponentsEntryPoints() {
+  const allComponentsFolders = require('glob').sync('src/*');
+
+  return allComponentsFolders.reduce((entryConfig, folder) => {
+    const name = path.basename(folder);
+    entryConfig[name] = path.resolve(folder, `${name}.js`);
+    return entryConfig;
+  }, {});
+}
