@@ -1,55 +1,76 @@
-import {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class Timer extends Component {
+function withTimerHOC(WrappedComponent) {
 
-  static propTypes = {
-    period: PropTypes.number,
-    onTick: PropTypes.func.isRequired
-  };
+  return class Timer extends React.Component {
 
-  componentDidMount() {
-    this.schedule();
-  }
+    static propTypes = {
+      tickPeriod: PropTypes.number,
+      onTick: PropTypes.func
+    };
 
-  shouldComponentUpdate(nextProps) {
-    return this.props !== nextProps && this.props.period !== nextProps.period;
-  }
+    static getDerivedStateFromProps(props, state) {
+      if (props.tickPeriod !== state.prevTickPeriod) {
+        return {
+          prevTickPeriod: props.tickPeriod,
+          reSchedule: true
+        };
+      }
+      return {
+        prevTickPeriod: state.prevtickPeriod,
+        reSchedule: false
+      };
+    }
 
-  componentDidUpdate() {
-    this.cancel();
-    this.schedule();
-  }
+    constructor(props) {
+      super(props);
+      this.state = {};
+    }
 
-  componentWillUnmount() {
-    this.cancel();
-  }
+    componentDidMount() {
+      this.schedule();
+    }
 
-  handler = null;
+    componentDidUpdate() {
+      if (this.state.reSchedule) {
+        this.cancel();
+        this.schedule();
+      }
+    }
 
-  task = () => {
-    this.props.onTick();
-    this.schedule();
-  };
+    componentWillUnmount() {
+      this.cancel();
+    }
 
-  schedule = () => {
-    if (this.props.period) {
-      this.handler = setTimeout(this.task, this.props.period);
-    } else {
-      this.handler = null;
+    handler = null;
+
+    task = () => {
+      if (this.props.onTick) {
+        this.props.onTick();
+      }
+      this.schedule();
+    };
+
+    schedule = () => {
+      if (this.props.tickPeriod) {
+        this.handler = setTimeout(this.task, this.props.tickPeriod);
+      } else {
+        this.handler = null;
+      }
+    };
+
+    cancel = () => {
+      if (this.handler) {
+        clearTimeout(this.handler);
+        this.handler = null;
+      }
+    };
+
+    render() {
+      return <WrappedComponent {...this.props}/>;
     }
   };
-
-  cancel = () => {
-    if (this.handler) {
-      clearTimeout(this.handler);
-      this.handler = null;
-    }
-  };
-
-  render() {
-    return '';
-  }
 }
 
-export default Timer;
+export default withTimerHOC;

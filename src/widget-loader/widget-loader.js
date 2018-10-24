@@ -6,10 +6,7 @@ function withWidgetLoaderHOC(WrappedComponent) {
   return class WidgetLoader extends React.Component {
 
     static propTypes = {
-      widgetLoader: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object
-      ]),
+      widgetLoader: PropTypes.bool,
       dashboardApi: PropTypes.object
     };
 
