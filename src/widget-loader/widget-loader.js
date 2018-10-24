@@ -1,26 +1,48 @@
-import {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class WidgetLoader extends Component {
+function withWidgetLoaderHOC(WrappedComponent) {
 
-  static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    dashboardApi: PropTypes.object.isRequired
-  };
+  return class WidgetLoader extends React.Component {
 
-  shouldComponentUpdate(nextProps) {
-    if (this.props === nextProps) {
-      return false;
+    static propTypes = {
+      widgetLoader: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+      ]),
+      dashboardApi: PropTypes.object
+    };
+
+    static getDerivedStateFromProps(props, state) {
+      if ((!!props.widgetLoader) !== !!(state.prevWidgetLoader)) {
+        return {
+          prevWidgetLoader: props.widgetLoader,
+          shouldLoaderUpdate: true
+        };
+      }
+      return {
+        prevWidgetTitle: state.prevWidgetLoader,
+        shouldLoaderUpdate: false
+      };
     }
 
-    return this.props.isLoading !== nextProps.isLoading;
-  }
+    constructor(props) {
+      super(props);
+      this.state = {};
+    }
 
-  render() {
-    const {isLoading, dashboardApi} = this.props;
-    dashboardApi.setLoadingAnimationEnabled(isLoading);
-    return '';
-  }
+    render() {
+      const {widgetLoader, ...restProps} = this.props;
+
+      if (this.state.shouldLoaderUpdate && restProps.dashboardApi) {
+        restProps.dashboardApi.setLoadingAnimationEnabled(widgetLoader);
+      }
+
+      return (
+        <WrappedComponent {...restProps}/>
+      );
+    }
+  };
 }
 
-export default WidgetLoader;
+export default withWidgetLoaderHOC;
