@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.29](https://github.com/mazine/hub-widget-ui/compare/v1.0.28...v1.0.29) (2019-03-07)
+
+
+
 <a name="1.0.28"></a>
 ## [1.0.28](https://github.com/mazine/hub-widget-ui/compare/v1.0.27...v1.0.28) (2019-03-06)
 
