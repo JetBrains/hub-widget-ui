@@ -24,6 +24,15 @@ function withWidgetTitleHOC(WrappedComponent) {
     return oldText !== newText || oldCounter !== newCounter || oldHref !== newHref;
   };
 
+  const updateTitle = (widgetTitle, dashboardApi) => {
+    const {text, counter, href} = widgetTitleAsObject(widgetTitle);
+
+    const superDigitTitlePart = counter != null && counter >= 0
+      ? ` ${toSuperDigitsString(counter)}`
+      : '';
+    dashboardApi.setTitle(`${text}${superDigitTitlePart}`, href);
+  };
+
   return class WidgetTitle extends Component {
 
     static propTypes = {
@@ -36,14 +45,13 @@ function withWidgetTitleHOC(WrappedComponent) {
 
     static getDerivedStateFromProps(props, state) {
       if (shouldTitleUpdate(props.widgetTitle, state.prevWidgetTitle)) {
+        updateTitle(props.widgetTitle, props.dashboardApi);
         return {
-          prevWidgetTitle: props.widgetTitle,
-          shouldTitleUpdate: true
+          prevWidgetTitle: props.widgetTitle
         };
       }
       return {
-        prevWidgetTitle: state.prevWidgetTitle,
-        shouldTitleUpdate: false
+        prevWidgetTitle: state.prevWidgetTitle
       };
     }
 
@@ -53,18 +61,7 @@ function withWidgetTitleHOC(WrappedComponent) {
     }
 
     render() {
-      const {widgetTitle, ...restProps} = this.props;
-
-      if (this.state.shouldTitleUpdate && restProps.dashboardApi) {
-        const {text, counter, href} = widgetTitleAsObject(widgetTitle);
-
-        const superDigitTitlePart = counter != null && counter >= 0
-          ? ` ${toSuperDigitsString(counter)}`
-          : '';
-        restProps.dashboardApi.setTitle(
-          `${text}${superDigitTitlePart}`, href
-        );
-      }
+      const {widgetTitle, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
       return (
         <WrappedComponent {...restProps}/>

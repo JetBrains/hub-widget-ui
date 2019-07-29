@@ -1,32 +1,43 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 
-class ConfigurationMode extends Component {
+function withConfigurationModeHOC(WrappedComponent) {
 
-  static propTypes = {
-    isConfiguring: PropTypes.bool.isRequired,
-    dashboardApi: PropTypes.object.isRequired
-  };
-
-  shouldComponentUpdate(nextProps) {
-    if (this.props === nextProps) {
-      return false;
-    }
-
-    return this.props.isConfiguring !== nextProps.isConfiguring;
-  }
-
-  render() {
-    const {isConfiguring, dashboardApi} = this.props;
-
+  function updateConfigMode(dashboardApi, isConfiguring) {
     if (isConfiguring) {
       dashboardApi.enterConfigMode();
     } else {
       dashboardApi.exitConfigMode();
     }
-    return '';
   }
+
+  return class ConfigurationMode extends Component {
+
+    static propTypes = {
+      isConfiguring: PropTypes.bool.isRequired,
+      dashboardApi: PropTypes.object.isRequired
+    };
+
+    static getDerivedStateFromProps(props, state) {
+      if (Boolean(props.isConfiguring) !== Boolean(state.prevIsConfiguring)) {
+        updateConfigMode(props.dashboardApi, props.isConfiguring);
+        return {
+          prevIsConfiguring: props.isConfiguring
+        };
+      }
+
+      return {
+        prevWidgetTitle: state.prevIsConfiguring
+      };
+    }
+
+    render() {
+      return (
+        <WrappedComponent {...this.props}/>
+      );
+    }
+  };
 }
 
-export default ConfigurationMode;
+export default withConfigurationModeHOC;
