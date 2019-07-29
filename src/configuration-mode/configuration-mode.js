@@ -32,6 +32,11 @@ function withConfigurationModeHOC(WrappedComponent) {
       };
     }
 
+    constructor(props) {
+      super(props);
+      this.state = {};
+    }
+
     render() {
       return (
         <WrappedComponent {...this.props}/>
