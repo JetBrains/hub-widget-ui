@@ -36,21 +36,29 @@ const ConfigurationForm = (
           { warning }
         </div>
       }
-      <Button
-        primary={true}
-        onClick={onSave}
-        disabled={isInvalid}
-        loader={isLoading}
-      >
-        {saveButtonLabel || i18n('Save')}
-      </Button>
-      <Button
-        data-test="cancel-button"
-        onClick={onCancel}
-        loader={isLoading}
-      >
-        {cancelButtonLabel || i18n('Cancel')}
-      </Button>
+      {
+        onSave && (
+          <Button
+            primary={true}
+            onClick={onSave}
+            disabled={isInvalid}
+            loader={isLoading}
+          >
+            {saveButtonLabel || i18n('Save')}
+          </Button>
+        )
+      }
+      {
+        onCancel && (
+          <Button
+            data-test="cancel-button"
+            onClick={onCancel}
+            loader={isLoading}
+          >
+            {cancelButtonLabel || i18n('Cancel')}
+          </Button>
+        )
+      }
       {panelControls}
     </Panel>
   </div>
@@ -62,8 +70,8 @@ ConfigurationForm.propTypes = {
   warning: PropTypes.string,
   isInvalid: PropTypes.bool,
   isLoading: PropTypes.bool,
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func,
   panelControls: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
