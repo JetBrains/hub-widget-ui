@@ -2,13 +2,16 @@ const SERVICE_FIELDS = 'id,name,applicationName,homeUrl,version';
 
 
 async function getYouTrackServices(dashboardApi, optionalMinYouTrackVersion) {
-  if (dashboardApi.loadServices) {
-    return await dashboardApi.loadServices('YouTrack');
-  }
+  const getServices = async () => {
+    if (dashboardApi.loadServices) {
+      return (await dashboardApi.loadServices('YouTrack')) || [];
+    }
 
-  const data = await dashboardApi.fetchHub(`api/rest/services?fields=${SERVICE_FIELDS}&query=applicationName:YouTrack`);
+    const data = await dashboardApi.fetchHub(`api/rest/services?fields=${SERVICE_FIELDS}&query=applicationName:YouTrack`);
+    return data && data.services || [];
+  };
 
-  return (data && data.services || []).filter(
+  return (await getServices()).filter(
     service => !!service.homeUrl && (!optionalMinYouTrackVersion ||
       satisfyingVersion(service.version, optionalMinYouTrackVersion))
   );
