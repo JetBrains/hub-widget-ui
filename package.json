@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/hub-widget-ui",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "description": "Common react Ring UI components for Hub widgets development",
   "main": "index.js",
   "files": [
