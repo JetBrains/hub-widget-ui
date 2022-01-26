@@ -1,5 +1,8 @@
 const SERVICE_FIELDS = 'id,name,applicationName,homeUrl,version';
 
+function normalizedHomeUrl(homeUrl) {
+  return homeUrl.charAt(homeUrl.length - 1) === '/' ? homeUrl : `${homeUrl}/`;
+}
 
 async function getYouTrackServices(dashboardApi, optionalMinYouTrackVersion) {
   const getServices = async () => {
@@ -14,6 +17,11 @@ async function getYouTrackServices(dashboardApi, optionalMinYouTrackVersion) {
   return (await getServices()).filter(
     service => !!service.homeUrl && (!optionalMinYouTrackVersion ||
       satisfyingVersion(service.version, optionalMinYouTrackVersion))
+  ).map(
+    ({homeUrl, ...restServiceProperties}) => ({
+      homeUrl: normalizedHomeUrl(homeUrl),
+      ...restServiceProperties
+    })
   );
 
   // eslint-disable-next-line complexity
