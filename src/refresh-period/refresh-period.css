@@ -1,12 +1,8 @@
-@import "@jetbrains/ring-ui/components/global/variables.css";
-
-@value unit: 8px;
-
 .refreshPeriod {
   float: right;
 
-  margin-top: unit;
-  margin-right: calc(unit / 2);
+  margin-top: var(--ring-unit);
+  margin-right: calc(var(--ring-unit) / 2);
 
   cursor: default;
   user-select: none;

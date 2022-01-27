@@ -31,7 +31,7 @@ const ServiceSelect = (
     label={placeholder || 'Select service'}
     multiple={false}
     loading={isLoading}
-    filter={true}
+    filter
     selected={service2item(selectedService)}
     size={Select.Size.FULL}
     minWidth={MinWidth.TARGET}

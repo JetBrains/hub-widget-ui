@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Tooltip from '@jetbrains/ring-ui/components/tooltip/tooltip';
-import {ChevronDownIcon, ChevronUpIcon, TimeIcon} from '@jetbrains/ring-ui/components/icon';
+import chevronDownIcon from '@jetbrains/icons/chevron-down';
+import chevronUpIcon from '@jetbrains/icons/chevron-up';
+import timeIcon from '@jetbrains/icons/time';
+import Icon from '@jetbrains/ring-ui/components/icon';
 import {i18n} from 'hub-dashboard-addons/dist/localization';
 
 import styles from './refresh-period.css';
@@ -31,23 +34,34 @@ const RefreshPeriod = ({seconds, onChange, label, tooltip}) => {
         popupProps={{top: -4}}
         title={tooltip(minutesCount)}
       >
-        <TimeIcon
-          size={TimeIcon.Size.Size12}
+        <Icon
+          onClick={decreaseRefreshPeriod(seconds, onChange)}
+          className={[styles.button, styles.down].join(' ')}
+          size={Icon.Size.Size12}
+          color={Icon.Color.BLUE}
+          data-test="refresh-period-down"
+          glyph={chevronDownIcon}
+        />
+        <Icon
+          size={Icon.Size.Size12}
+          glyph={timeIcon}
         />&nbsp;<span data-test="refresh-period-label">{label(minutesCount)}</span>
       </Tooltip>
-      <ChevronUpIcon
+      <Icon
         onClick={increaseRefreshPeriod(seconds, onChange)}
         className={[styles.button, styles.up].join(' ')}
-        size={ChevronUpIcon.Size.Size12}
-        color={ChevronUpIcon.Color.BLUE}
+        size={Icon.Size.Size12}
+        color={Icon.Color.BLUE}
         data-test="refresh-period-up"
+        glyph={chevronUpIcon}
       />
-      <ChevronDownIcon
+      <Icon
         onClick={decreaseRefreshPeriod(seconds, onChange)}
         className={[styles.button, styles.down].join(' ')}
-        size={ChevronDownIcon.Size.Size12}
-        color={ChevronDownIcon.Color.BLUE}
+        size={Icon.Size.Size12}
+        color={Icon.Color.BLUE}
         data-test="refresh-period-down"
+        glyph={chevronDownIcon}
       />
     </span>
   );

@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Panel from '@jetbrains/ring-ui/components/panel/panel';
 import Button from '@jetbrains/ring-ui/components/button/button';
-import {WarningIcon} from '@jetbrains/ring-ui/components/icon';
+import warningIcon from '@jetbrains/icons/warning';
+import Icon from '@jetbrains/ring-ui/components/icon';
 import {i18n} from 'hub-dashboard-addons/dist/localization';
 
 import styles from './configuration-form.css';
@@ -26,20 +27,21 @@ const ConfigurationForm = (
     </div>
     <Panel className={styles.configurationButtonsPanel} data-test="apply-button">
       {
-        warning &&
-        <div className={styles.configurationWarning}>
-          <WarningIcon
-            className={styles.configurationWarningIcon}
-            size={WarningIcon.Size.Size12}
-            color={WarningIcon.Color.RED}
-          />
-          { warning }
-        </div>
-      }
+        warning && (
+          <div className={styles.configurationWarning}>
+            <Icon
+              className={styles.configurationWarningIcon}
+              size={Icon.Size.Size12}
+              color={Icon.Color.RED}
+              glyph={warningIcon}
+            />
+            {warning}
+          </div>
+        )}
       {
         onSave && (
           <Button
-            primary={true}
+            primary
             onClick={onSave}
             disabled={isInvalid}
             loader={isLoading}
