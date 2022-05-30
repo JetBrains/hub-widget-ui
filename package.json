@@ -19,7 +19,7 @@
     "test": "karma start",
     "commit": "git-cz",
     "ci-test": "npm run lint && xvfb-maybe karma start --teamcity",
-    "prerelease:ci": "npm run ci-test && npm run build",
+    "prerelease:ci": "npm run build",
     "release:ci": "standard-version && git push --follow-tags origin master && npm publish"
   },
   "repository": {
