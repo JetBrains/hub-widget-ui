@@ -16,7 +16,7 @@ module.exports = config =>
 
     // list of files / patterns to load in the browser
     files: [
-      './test-bundler.js'
+      './src/**/**.test.js'
     ],
 
 
@@ -27,7 +27,7 @@ module.exports = config =>
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './test-bundler.js': ['webpack', 'sourcemap']
+      './src/**/**.test.js': ['webpack', 'sourcemap']
     },
 
     webpack: Object.assign({}, require('./webpack.config'), {

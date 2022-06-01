@@ -17,12 +17,16 @@ module.exports = {
     libraryTarget: 'commonjs',
     publicPath: '/dist/'
   },
+  devtool: 'hidden-source-map',
   module: {
     rules: [
       ...ringUiWebpackConfig.config.module.rules,
       {
         test: /\.css$/,
-        include: [resolve(__dirname, 'src')],
+        include: [
+          resolve(__dirname, 'src'),
+          resolve(__dirname, 'node_modules/cheerio')
+        ],
         use: [{
           loader: 'style-loader'
         }, {
@@ -35,6 +39,9 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        include: [
+          resolve(__dirname, 'src')
+        ],
         use: {
           loader: 'babel-loader',
           options: {
@@ -44,9 +51,7 @@ module.exports = {
               }]
             ]
           }
-        },
-        include: resolve(__dirname, 'src'),
-        exclude: /node_modules/
+        }
       }]
   },
   plugins: [

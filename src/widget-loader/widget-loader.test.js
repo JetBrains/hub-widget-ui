@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {expect} from 'chai';
-import {mount} from 'enzyme';
+import {render, screen} from '@testing-library/react/dist/@testing-library/react.pure.umd';
 
 import TestComponent from '../test-mocks/test-component';
 import {getDashboardApiMock} from '../test-mocks/test-mocks';
@@ -15,6 +15,8 @@ describe('WidgetLoader', () => {
   let WidgetLoaderTestComponent;
 
   beforeEach(() => {
+    document.body.innerHTML = '';
+
     dashboardApiMock = getDashboardApiMock();
     WidgetLoaderTestComponent = withWidgetLoaderHOC(TestComponent);
   });
@@ -24,92 +26,85 @@ describe('WidgetLoader', () => {
   });
 
   it('should render component wrapped to loader-hoc', () => {
-    const testComponentWrapper = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
+    mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
 
-    expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
-    ).to.equal('World');
+    expect(screen.getByTestId('test-component-root').innerText).is.equal('World');
   });
 
   it('should set loader animation for dashboard api', () => {
-    const testComponentWrapper = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
+    const {rerender} = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('World');
 
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.called;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label'
-    });
+    mountWidgetLoaderTestComponent('Updated label', true, dashboardApiMock, rerender);
+
+    expect(
+      screen.getByTestId('test-component-root').innerText
+    ).to.equal('Updated label');
   });
 
   it('should not update loader animation state for dashboard api if it was not changed', () => {
-    const testComponentWrapper = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
+    const {rerender} = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
 
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label'
-    });
+    mountWidgetLoaderTestComponent('Updated label', true, dashboardApiMock, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.calledOnce;
   });
 
   it('should not update loader animation state for dashboard api if passed same value', () => {
-    const testComponentWrapper = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
+    const {rerender} = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
 
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label',
-      widgetLoader: true
-    });
+    mountWidgetLoaderTestComponent('Updated label', true, dashboardApiMock, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.calledOnce;
   });
 
   it('should update loader animation state for dashboard api if it was changed', () => {
-    const testComponentWrapper = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
+    const {rerender} = mountWidgetLoaderTestComponent('World', true, dashboardApiMock);
 
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label',
-      widgetLoader: false
-    });
+    mountWidgetLoaderTestComponent('Updated label', false, dashboardApiMock, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
     expect(dashboardApiMock.setLoadingAnimationEnabled).to.have.been.calledTwice;
   });
 
   it('should work even without widget-loader-hoc parameters', () => {
-    const testComponentWrapper = mountWidgetLoaderTestComponent('World');
+    const {rerender} = mountWidgetLoaderTestComponent('World');
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('World');
 
-    testComponentWrapper.setProps({
-      label: 'Updated label'
-    });
+    mountWidgetLoaderTestComponent('Updated label', undefined, undefined, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
   });
 
-  function mountWidgetLoaderTestComponent(label, widgetLoader, dashboardApi) {
-    return mount(
+
+  function mountWidgetLoaderTestComponent(
+    label, widgetLoader, dashboardApi, renderFunction = render
+  ) {
+    return renderFunction(
       <WidgetLoaderTestComponent
         label={label}
         widgetLoader={widgetLoader}

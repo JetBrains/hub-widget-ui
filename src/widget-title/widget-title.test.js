@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {expect} from 'chai';
-import {mount} from 'enzyme';
+import {render, screen} from '@testing-library/react/dist/@testing-library/react.pure.umd';
 
 import TestComponent from '../test-mocks/test-component';
 import {getDashboardApiMock} from '../test-mocks/test-mocks';
@@ -15,6 +15,8 @@ describe('WidgetTitle', () => {
   let TitleTestComponent;
 
   beforeEach(() => {
+    document.body.innerHTML = '';
+
     dashboardApiMock = getDashboardApiMock();
     TitleTestComponent = withWidgetTitleHOC(TestComponent);
   });
@@ -24,95 +26,82 @@ describe('WidgetTitle', () => {
   });
 
   it('should render component wrapped to title-hoc', () => {
-    const testComponentWrapper = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
+    mountTitleTestComponent('World', 'Hello', dashboardApiMock);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('World');
   });
 
   it('should set title for dashboard api', () => {
-    const testComponentWrapper = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
+    mountTitleTestComponent('World', 'Hello', dashboardApiMock);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('World');
 
     expect(dashboardApiMock.setTitle).to.have.been.called;
-
-    testComponentWrapper.setProps({
-      label: 'Updated label'
-    });
   });
 
   it('should not update title for dashboard api if it was not changed', () => {
-    const testComponentWrapper = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
+    const {rerender} = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
 
     expect(dashboardApiMock.setTitle).to.have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label'
-    });
+    mountTitleTestComponent('Updated label', 'Hello', dashboardApiMock, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
+
     expect(dashboardApiMock.setTitle).to.have.been.calledOnce;
   });
 
   it('should not update title for dashboard api if passed same value', () => {
-    const testComponentWrapper = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
+    const {rerender} = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
 
     expect(dashboardApiMock.setTitle).to.have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label',
-      widgetTitle: 'Hello'
-    });
+    mountTitleTestComponent('Updated label', 'Hello', dashboardApiMock, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
     expect(dashboardApiMock.setTitle).to.have.been.calledOnce;
   });
 
   it('should update title for dashboard api if it was changed', () => {
-    const testComponentWrapper = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
+    const {rerender} = mountTitleTestComponent('World', 'Hello', dashboardApiMock);
 
     expect(dashboardApiMock.setTitle).to.have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      label: 'Updated label',
-      widgetTitle: {
-        text: 'Hello',
-        link: 'http://google.com'
-      }
-    });
+    mountTitleTestComponent('Updated label', {
+      text: 'Hello',
+      link: 'http://google.com'
+    }, dashboardApiMock, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
     expect(dashboardApiMock.setTitle).to.have.been.calledTwice;
   });
 
   it('should work even without title-hoc parameters', () => {
-    const testComponentWrapper = mountTitleTestComponent('World');
+    const {rerender} = mountTitleTestComponent('World');
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('World');
 
-    testComponentWrapper.setProps({
-      label: 'Updated label'
-    });
+    mountTitleTestComponent('Updated label', undefined, undefined, rerender);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('Updated label');
   });
 
-  function mountTitleTestComponent(label, widgetTitle, dashboardApi) {
-    return mount(
+  function mountTitleTestComponent(label, widgetTitle, dashboardApi, renderFunction = render) {
+    return renderFunction(
       <TitleTestComponent
         label={label}
         widgetTitle={widgetTitle}

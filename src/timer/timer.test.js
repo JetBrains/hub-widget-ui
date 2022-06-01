@@ -3,7 +3,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import {expect} from 'chai';
-import {mount} from 'enzyme';
+import {render, screen} from '@testing-library/react/dist/@testing-library/react.pure.umd';
 
 import TestComponent from '../test-mocks/test-component';
 
@@ -13,14 +13,14 @@ describe('WidgetLoader', () => {
 
   const TEST_PERIOD = 100;
 
-  let WidgetLoaderTestComponent;
+  let WidgetTimerTestComponent;
   let onTick;
   let clock;
 
   beforeEach(() => {
     onTick = sandbox.spy();
     clock = sinon.useFakeTimers();
-    WidgetLoaderTestComponent = withTimerHOC(TestComponent);
+    WidgetTimerTestComponent = withTimerHOC(TestComponent);
   });
 
   afterEach(() => {
@@ -32,23 +32,13 @@ describe('WidgetLoader', () => {
   });
 
   it('should render component wrapped to timer-hoc', () => {
-    const testComponentWrapper = mountTimerTestComponent('World', TEST_PERIOD, onTick);
+    mountTimerTestComponent('World', TEST_PERIOD, onTick);
 
     expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
+      screen.getByTestId('test-component-root').innerText
     ).to.equal('World');
   });
 
-  it('should rerender component on changes props', () => {
-    const testComponentWrapper = mountTimerTestComponent('World', TEST_PERIOD, onTick);
-    testComponentWrapper.setProps({
-      label: 'Hello!'
-    });
-
-    expect(
-      testComponentWrapper.find('[data-test="test-component-root"]').text()
-    ).to.equal('Hello!');
-  });
 
   it('should not call onTick immediately', () => {
     mountTimerTestComponent('World', TEST_PERIOD, onTick);
@@ -64,10 +54,8 @@ describe('WidgetLoader', () => {
   });
 
   it('should change ticking interval', () => {
-    const testComponentWrapper = mountTimerTestComponent('World', TEST_PERIOD, onTick);
-    testComponentWrapper.setProps({
-      tickPeriod: TEST_PERIOD + TEST_PERIOD
-    });
+    const {rerender} = mountTimerTestComponent('World', TEST_PERIOD, onTick);
+    mountTimerTestComponent('World', TEST_PERIOD + TEST_PERIOD, onTick, rerender);
 
     clock.tick(TEST_PERIOD + 1);
     expect(onTick).not.to.have.been.called;
@@ -77,14 +65,12 @@ describe('WidgetLoader', () => {
   });
 
   it('should change ticking interval even when period was updated with delay', () => {
-    const testComponentWrapper = mountTimerTestComponent('World', TEST_PERIOD, onTick);
+    const {rerender} = mountTimerTestComponent('World', TEST_PERIOD, onTick);
 
     clock.tick(TEST_PERIOD + 1);
     expect(onTick).have.been.calledOnce;
 
-    testComponentWrapper.setProps({
-      tickPeriod: TEST_PERIOD + TEST_PERIOD
-    });
+    mountTimerTestComponent('World', TEST_PERIOD + TEST_PERIOD, onTick, rerender);
 
     clock.tick(TEST_PERIOD + 1);
     expect(onTick).have.been.calledOnce;
@@ -93,9 +79,9 @@ describe('WidgetLoader', () => {
     expect(onTick).have.been.calledTwice;
   });
 
-  function mountTimerTestComponent(label, period, onTickCallback) {
-    return mount(
-      <WidgetLoaderTestComponent
+  function mountTimerTestComponent(label, period, onTickCallback, renderFunction = render) {
+    return renderFunction(
+      <WidgetTimerTestComponent
         label={label}
         tickPeriod={period}
         onTick={onTickCallback}

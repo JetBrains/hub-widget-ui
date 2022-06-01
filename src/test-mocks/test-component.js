@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import './test-mocks';
+
 const TestComponent = ({label, onRender}) => {
   if (onRender) {
     onRender();
