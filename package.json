@@ -55,7 +55,7 @@
     "chai-spies": "1.0.0",
     "cheerio": "1.0.0-rc.1",
     "css-loader": "3.5.3",
-    "electron": "2.0.10",
+    "electron": "15.5.5",
     "escope": "3.6.0",
     "eslint": "8.12.0",
     "eslint-plugin-import": "2.25.4",
