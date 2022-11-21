@@ -46,7 +46,7 @@ function withTimerHOC(WrappedComponent) {
     handler = null;
 
     task = () => {
-      if (this.props.onTick) {
+      if (this.props.onTick && !document.hidden) {
         this.props.onTick();
       }
       this.schedule();
