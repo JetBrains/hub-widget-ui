@@ -71,7 +71,7 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-teamcity-reporter": "1.1.0",
     "karma-webpack": "3.0.0",
-    "mocha": "5.1.1",
+    "mocha": "10.1.0",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
