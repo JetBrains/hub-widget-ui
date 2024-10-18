@@ -1,3 +1,5 @@
+const isInApp = !!window.YTApp;
+
 function ConfigWrapper(dashboardApi, configFields) {
   let config;
   let isInitialized = false;
@@ -6,7 +8,16 @@ function ConfigWrapper(dashboardApi, configFields) {
     await (
       dashboardApi.readConfig().then(response => {
         isInitialized = true;
-        config = response;
+        if (isInApp) {
+          const stored = (response || {}).customWidgetConfig;
+          try {
+            config = stored ? JSON.parse(stored) : null;
+          } catch (e) {
+            // noop
+          }
+        } else {
+          config = response;
+        }
         return config;
       })
     );
@@ -39,15 +50,22 @@ function ConfigWrapper(dashboardApi, configFields) {
     return null;
   };
 
-  this.replace = async newConfig =>
-    await (
-      dashboardApi.storeConfig(filterConfigFields(newConfig)).
+  this.replace = async newConfig => {
+    const promise = isInApp
+      ? dashboardApi.storeConfig({
+        customWidgetConfig: JSON.stringify(filterConfigFields(newConfig))
+      })
+      : dashboardApi.storeConfig(filterConfigFields(newConfig));
+
+    return await (
+      promise.
         then(() => {
           isInitialized = true;
           config = newConfig;
           return config;
         })
     );
+  };
 
   function mergeConfigs(newConfig, prevConfig) {
     if (!prevConfig) {
